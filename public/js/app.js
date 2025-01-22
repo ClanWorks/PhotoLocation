@@ -50,21 +50,19 @@ async function fetchCities() {
 // Display a city by index
 function displayCity(index) {
   const cityData = cities[index];
-  const description = `This image is of ${cityData.name}, ${cityData.country} in ${cityData.year}.`;
+  const descriptionText = `This image is of ${cityData.name}, ${cityData.country} in ${cityData.year}.`;
 
   const cityHTML = `
-    <div style="position: relative;">
-      <img src="${cityData.image_url}" alt="${cityData.name}">
-      <div class="description">${description}</div>
-    </div>
+    <img src="${cityData.image_url}" alt="${cityData.name}">
   `;
 
   const outputDiv = document.getElementById("output");
-  outputDiv.innerHTML = cityHTML;
+  const descriptionDiv = document.getElementById("description-container");
 
-  // Hide the description initially
-  const descriptionDiv = outputDiv.querySelector(".description");
-  descriptionDiv.style.display = "none";
+  // Update image and description
+  outputDiv.innerHTML = cityHTML;
+  descriptionDiv.textContent = descriptionText;
+  descriptionDiv.style.display = "none"; // Hide description initially
 
   // Reset the Reveal button text
   const revealBtn = document.getElementById("reveal-btn");
@@ -99,13 +97,15 @@ document.getElementById("next-btn").addEventListener("click", () => {
 
 // Add event listener for the Reveal button
 document.getElementById("reveal-btn").addEventListener("click", () => {
-  const descriptionDiv = document.querySelector(".description");
+  const descriptionDiv = document.getElementById("description-container");
   const revealBtn = document.getElementById("reveal-btn");
 
   if (descriptionDiv.style.display === "none") {
+    console.log("Revealing text...");
     descriptionDiv.style.display = "block";
     revealBtn.textContent = "Hide";
   } else {
+    console.log("Hiding text...");
     descriptionDiv.style.display = "none";
     revealBtn.textContent = "Reveal";
   }
