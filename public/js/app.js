@@ -59,7 +59,16 @@ function displayCity(index) {
     </div>
   `;
 
-  document.getElementById("output").innerHTML = cityHTML;
+  const outputDiv = document.getElementById("output");
+  outputDiv.innerHTML = cityHTML;
+
+  // Hide the description initially
+  const descriptionDiv = outputDiv.querySelector(".description");
+  descriptionDiv.style.display = "none";
+
+  // Reset the Reveal button text
+  const revealBtn = document.getElementById("reveal-btn");
+  revealBtn.textContent = "Reveal";
 }
 
 // Update button states
@@ -85,6 +94,20 @@ document.getElementById("next-btn").addEventListener("click", () => {
     currentIndex++;
     displayCity(currentIndex);
     updateButtons();
+  }
+});
+
+// Add event listener for the Reveal button
+document.getElementById("reveal-btn").addEventListener("click", () => {
+  const descriptionDiv = document.querySelector(".description");
+  const revealBtn = document.getElementById("reveal-btn");
+
+  if (descriptionDiv.style.display === "none") {
+    descriptionDiv.style.display = "block";
+    revealBtn.textContent = "Hide";
+  } else {
+    descriptionDiv.style.display = "none";
+    revealBtn.textContent = "Reveal";
   }
 });
 

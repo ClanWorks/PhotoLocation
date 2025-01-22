@@ -14,14 +14,21 @@
     #output {
       margin: 20px auto;
       max-width: 600px;
+      height: 400px; /* Ensures consistent height for the image container */
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
     }
     img {
+      max-height: 100%;
       max-width: 100%;
+      object-fit: contain; /* Maintains aspect ratio */
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .description {
+      display: none;
       position: absolute;
       bottom: 10px;
       left: 10px;
@@ -56,6 +63,7 @@
   <h1>City Guessing Game</h1>
   <div id="output">Loading data...</div>
   <div class="buttons">
+    <button id="reveal-btn">Reveal</button>
     <button id="prev-btn" disabled>Previous</button>
     <button id="next-btn" disabled>Next</button>
   </div>
