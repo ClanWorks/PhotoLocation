@@ -14,35 +14,27 @@
     #output {
       margin: 20px auto;
       max-width: 600px;
-      height: 400px; /* Ensures consistent height for the image container */
+      height: 400px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden; /* Prevent content overflow */
+      overflow: hidden;
     }
     img {
       max-height: 100%;
       max-width: 100%;
-      object-fit: contain; /* Maintain aspect ratio */
+      object-fit: contain;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    .description {
+    .options {
       margin: 15px auto;
-      max-width: 600px;
-      padding: 10px 20px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      border-radius: 4px;
-      font-size: 16px;
-      font-family: Arial, sans-serif;
-      display: none; /* Initially hidden */
+      display: flex;
+      justify-content: center;
+      gap: 10px;
     }
-    .buttons {
-      margin-top: 20px; /* Always below the description */
-    }
-    button {
+    .options button {
       padding: 10px 20px;
       font-size: 16px;
       border: none;
@@ -50,7 +42,14 @@
       cursor: pointer;
       background-color: #007BFF;
       color: white;
-      margin: 5px;
+    }
+    .feedback {
+      margin: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .buttons {
+      margin-top: 20px;
     }
     button:disabled {
       background-color: #cccccc;
@@ -62,9 +61,9 @@
 <body>
   <h1>City Guessing Game</h1>
   <div id="output">Loading data...</div>
-  <div class="description" id="description-container"></div>
+  <div class="options" id="options-container"></div>
+  <div class="feedback" id="feedback-container"></div>
   <div class="buttons">
-    <button id="reveal-btn">Reveal</button>
     <button id="prev-btn" disabled>Previous</button>
     <button id="next-btn" disabled>Next</button>
   </div>

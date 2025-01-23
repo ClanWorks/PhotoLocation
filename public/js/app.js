@@ -50,23 +50,41 @@ async function fetchCities() {
 // Display a city by index
 function displayCity(index) {
   const cityData = cities[index];
-  const descriptionText = `This image is of ${cityData.name}, ${cityData.country} in ${cityData.year}.`;
-
-  const cityHTML = `
-    <img src="${cityData.image_url}" alt="${cityData.name}">
-  `;
-
   const outputDiv = document.getElementById("output");
-  const descriptionDiv = document.getElementById("description-container");
+  const optionsContainer = document.getElementById("options-container");
+  const feedbackContainer = document.getElementById("feedback-container");
 
-  // Update image and description
-  outputDiv.innerHTML = cityHTML;
-  descriptionDiv.textContent = descriptionText;
-  descriptionDiv.style.display = "none"; // Hide description initially
+  // Display image
+  outputDiv.innerHTML = `<img src="${cityData.image_url}" alt="${cityData.name}">`;
 
-  // Reset the Reveal button text
-  const revealBtn = document.getElementById("reveal-btn");
-  revealBtn.textContent = "Reveal";
+  // Clear feedback
+  feedbackContainer.textContent = "";
+
+  // Generate multiple-choice options
+  const options = generateOptions(cityData);
+  optionsContainer.innerHTML = "";
+
+  options.forEach((option) => {
+    const button = document.createElement("button");
+    button.textContent = `${option.name}, ${option.country}`;
+    button.onclick = () => {
+      const isCorrect = option === cityData;
+      feedbackContainer.textContent = isCorrect
+        ? `Yes, this was ${cityData.name}, ${cityData.country} in ${cityData.year}.`
+        : `Sorry, this was ${cityData.name}, ${cityData.country} in ${cityData.year}.`;
+    };
+    optionsContainer.appendChild(button);
+  });
+}
+
+// Generate options with 1 correct and 2 incorrect answers
+function generateOptions(correctCity) {
+  const incorrectCities = cities.filter((city) => city !== correctCity);
+  shuffleArray(incorrectCities);
+  const selectedIncorrect = incorrectCities.slice(0, 2);
+  const options = [correctCity, ...selectedIncorrect];
+  shuffleArray(options);
+  return options;
 }
 
 // Update button states
@@ -92,22 +110,6 @@ document.getElementById("next-btn").addEventListener("click", () => {
     currentIndex++;
     displayCity(currentIndex);
     updateButtons();
-  }
-});
-
-// Add event listener for the Reveal button
-document.getElementById("reveal-btn").addEventListener("click", () => {
-  const descriptionDiv = document.getElementById("description-container");
-  const revealBtn = document.getElementById("reveal-btn");
-
-  if (descriptionDiv.style.display === "none") {
-    console.log("Revealing text...");
-    descriptionDiv.style.display = "block";
-    revealBtn.textContent = "Hide";
-  } else {
-    console.log("Hiding text...");
-    descriptionDiv.style.display = "none";
-    revealBtn.textContent = "Reveal";
   }
 });
 
