@@ -28,6 +28,11 @@
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+    .question-number {
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
     .options {
       margin: 15px auto;
       display: flex;
@@ -51,6 +56,9 @@
     .buttons {
       margin-top: 20px;
     }
+    .next-question {
+      margin-top: 20px;
+    }
     button:disabled {
       background-color: #cccccc;
       cursor: not-allowed;
@@ -60,12 +68,12 @@
 </head>
 <body>
   <h1>City Guessing Game</h1>
+  <div class="question-number" id="question-number"></div>
   <div id="output">Loading data...</div>
   <div class="options" id="options-container"></div>
   <div class="feedback" id="feedback-container"></div>
-  <div class="buttons">
-    <button id="prev-btn" disabled>Previous</button>
-    <button id="next-btn" disabled>Next</button>
+  <div class="next-question">
+    <button id="next-question-btn" style="display: none;">Next Question</button>
   </div>
 </body>
 </html>
