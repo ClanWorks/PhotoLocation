@@ -28,7 +28,7 @@
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    .question-number {
+    .question-number, .timer {
       margin-bottom: 15px;
       font-size: 18px;
       font-weight: bold;
@@ -53,9 +53,6 @@
       font-size: 18px;
       font-weight: bold;
     }
-    .buttons {
-      margin-top: 20px;
-    }
     .next-question {
       margin-top: 20px;
     }
@@ -69,6 +66,7 @@
 <body>
   <h1>City Guessing Game</h1>
   <div class="question-number" id="question-number"></div>
+  <div class="timer" id="timer">Time left: 15s</div>
   <div id="output">Loading data...</div>
   <div class="options" id="options-container"></div>
   <div class="feedback" id="feedback-container"></div>

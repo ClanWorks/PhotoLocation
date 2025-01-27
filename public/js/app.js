@@ -13,6 +13,7 @@ let cities = [];
 let selectedCities = [];
 let currentQuestion = 0;
 let score = 0;
+let timerInterval;
 
 // Function to shuffle an array
 function shuffleArray(array) {
@@ -56,6 +57,7 @@ function displayQuestion() {
   const optionsContainer = document.getElementById("options-container");
   const feedbackContainer = document.getElementById("feedback-container");
   const questionNumberDiv = document.getElementById("question-number");
+  const timerDiv = document.getElementById("timer");
 
   // Display question number
   questionNumberDiv.textContent = `Question ${currentQuestion + 1} / ${selectedCities.length}`;
@@ -78,10 +80,15 @@ function displayQuestion() {
 
   // Hide next question button
   document.getElementById("next-question-btn").style.display = "none";
+
+  // Start timer
+  startTimer(timerDiv);
 }
 
 // Handle answer selection
 function handleAnswer(selectedOption, correctOption) {
+  clearInterval(timerInterval);
+
   const feedbackContainer = document.getElementById("feedback-container");
 
   if (selectedOption === correctOption) {
@@ -95,6 +102,22 @@ function handleAnswer(selectedOption, correctOption) {
   const nextQuestionBtn = document.getElementById("next-question-btn");
   nextQuestionBtn.style.display = "block";
   nextQuestionBtn.onclick = nextQuestion;
+}
+
+// Timer function
+function startTimer(timerDiv) {
+  let timeLeft = 15;
+  timerDiv.textContent = `Time left: ${timeLeft}s`;
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    timerDiv.textContent = `Time left: ${timeLeft}s`;
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      handleAnswer(null, selectedCities[currentQuestion]);
+    }
+  }, 1000);
 }
 
 // Move to the next question or end the game
@@ -121,7 +144,7 @@ function endGame() {
 
 // Generate options with 1 correct and 2 incorrect answers
 function generateOptions(correctCity) {
-  const incorrectCities = cities.filter((city) => city !== correctCity);
+  const incorrectCities = cities.filter((city) => city.name !== correctCity.name);
   shuffleArray(incorrectCities);
   const selectedIncorrect = incorrectCities.slice(0, 2);
   const options = [correctCity, ...selectedIncorrect];
