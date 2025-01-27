@@ -125,6 +125,11 @@ function startTimer(timerDiv) {
       timerExpired = true; // Mark timer as expired
       disableButtons(); // Disable all buttons
       handleAnswer(null, selectedCities[currentQuestion]); // Automatically handle as incorrect
+
+      // Show next question button
+      const nextQuestionBtn = document.getElementById("next-question-btn");
+      nextQuestionBtn.style.display = "block";
+      nextQuestionBtn.onclick = nextQuestion;
     }
   }, 1000);
 }
