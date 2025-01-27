@@ -14,6 +14,7 @@ let selectedCities = [];
 let currentQuestion = 0;
 let score = 0;
 let timerInterval;
+let timerExpired = false; // New flag for timer expiration
 
 // Function to shuffle an array
 function shuffleArray(array) {
@@ -59,6 +60,9 @@ function displayQuestion() {
   const questionNumberDiv = document.getElementById("question-number");
   const timerDiv = document.getElementById("timer");
 
+  // Reset timerExpired flag
+  timerExpired = false;
+
   // Display question number
   questionNumberDiv.textContent = `Question ${currentQuestion + 1} / ${selectedCities.length}`;
 
@@ -87,7 +91,10 @@ function displayQuestion() {
 
 // Handle answer selection
 function handleAnswer(selectedOption, correctOption) {
+  if (timerExpired) return; // Prevent selecting answers after the timer expires
+
   clearInterval(timerInterval);
+  disableButtons(); // Disable all buttons after an answer is selected
 
   const feedbackContainer = document.getElementById("feedback-container");
 
@@ -115,9 +122,19 @@ function startTimer(timerDiv) {
 
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      handleAnswer(null, selectedCities[currentQuestion]);
+      timerExpired = true; // Mark timer as expired
+      disableButtons(); // Disable all buttons
+      handleAnswer(null, selectedCities[currentQuestion]); // Automatically handle as incorrect
     }
   }, 1000);
+}
+
+// Disable all answer buttons
+function disableButtons() {
+  const buttons = document.querySelectorAll(".options button");
+  buttons.forEach((button) => {
+    button.disabled = true;
+  });
 }
 
 // Move to the next question or end the game
