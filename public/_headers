@@ -1,0 +1,43 @@
+# Cloudflare Pages cache policy.
+#
+# Pages' default for every file is `public, max-age=0, must-revalidate`,
+# which makes every asset a `cf-cache-status: DYNAMIC` miss — nothing
+# edge-caches and every navigation re-fetches the full ~730 kB of
+# vendored MapLibre, map GeoJSON, and manifest from origin.
+#
+# Rules are matched in order and a later match wins for the same header,
+# so the specific /assets/social-card.jpg rule below overrides the
+# /assets/* rule above it.
+
+# Build-generated images are content-addressed (a sha256 prefix of the
+# original's bytes — see scripts/lib/media.js), so a given filename can
+# never refer to different bytes. Safe to cache forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The one file under /assets/ that is NOT checksum-named: hand-placed,
+# referenced by the og:image/twitter:image meta tags, and replaceable.
+/assets/social-card.jpg
+  Cache-Control: public, max-age=86400
+
+# Vendored MapLibre and the Natural Earth GeoJSON — not content-hashed,
+# but they only change on a deliberate dependency or map-data update,
+# and a Pages deploy invalidates the asset cache.
+/js/vendor/*
+  Cache-Control: public, max-age=86400
+
+/map-data/*
+  Cache-Control: public, max-age=86400
+
+/css/*
+  Cache-Control: public, max-age=86400
+
+# Generated content: changes only on `npm run build:content`. An hour
+# bounds how long a stale manifest could outlive a content rebuild.
+/content/*
+  Cache-Control: public, max-age=3600
+
+# Deliberately NOT listed: /js/*.js (the app's own modules) and the HTML
+# pages. Both keep the Pages default of revalidate-every-time so a code
+# deploy takes effect immediately and can never leave stale app code
+# running against a freshly rebuilt manifest.
